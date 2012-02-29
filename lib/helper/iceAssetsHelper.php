@@ -152,10 +152,21 @@ function ice_combine_stylesheets($stylesheets)
 {
   if (!empty($stylesheets) && is_array($stylesheets))
   {
-    echo sprintf(
-      '<link rel="stylesheet" type="text/css" href="%s/combine.php?type=css&files=%s&revision=%d"/>',
-      ice_cdn_domain(), implode(',', $stylesheets), defined('SVN_REVISION') ? SVN_REVISION : null
+    $url = sprintf(
+      '%s/combine.php?type=css&files=%s',
+      ice_cdn_domain(), implode(',', $stylesheets)
     );
+
+    if (defined('SVN_REVISION'))
+    {
+      $url .= '&revision='. intval(SVN_REVISION);
+    }
+    if (class_exists('sfConfig') && sfConfig::get('sf_environment') !== 'prod')
+    {
+      $url .= '&cache=0';
+    }
+
+    echo '<link rel="stylesheet" type="text/css" href="', $url, '"/>';
   }
 }
 
@@ -168,9 +179,20 @@ function ice_combine_javascripts($javascripts)
 {
   if (!empty($javascripts) && is_array($javascripts))
   {
-    echo sprintf(
-      '<script type="text/javascript" src="%s/combine.php?type=javascript&files=%s&revision=%d"></script>',
-      ice_cdn_domain(), implode(',', $javascripts), defined('SVN_REVISION') ? SVN_REVISION : null
+    $url = sprintf(
+      '%s/combine.php?type=javascript&files=%s',
+      ice_cdn_domain(), implode(',', $javascripts)
     );
+
+    if (defined('SVN_REVISION'))
+    {
+      $url .= '&revision='. intval(SVN_REVISION);
+    }
+    if (class_exists('sfConfig') && sfConfig::get('sf_environment') !== 'prod')
+    {
+      $url .= '&cache=0';
+    }
+
+    echo '<script type="text/javascript" src="', $url,'"></script>';
   }
 }

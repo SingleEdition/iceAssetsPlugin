@@ -1,5 +1,5 @@
 /* =========================================================
- * bootstrap-modal.js v2.0.0
+ * bootstrap-modal.js v2.0.1
  * http://twitter.github.com/bootstrap/javascript.html#modals
  * =========================================================
  * Copyright 2012 Twitter, Inc.
@@ -22,8 +22,8 @@
 
   "use strict"
 
- /* MODAL CLASS DEFINITION
-  * ====================== */
+  /* MODAL CLASS DEFINITION
+   * ====================== */
 
   var Modal = function ( content, options ) {
     this.options = options
@@ -33,77 +33,77 @@
 
   Modal.prototype = {
 
-      constructor: Modal
+    constructor: Modal
 
     , toggle: function () {
-        return this[!this.isShown ? 'show' : 'hide']()
-      }
+      return this[!this.isShown ? 'show' : 'hide']()
+    }
 
     , show: function () {
-        var that = this
+      var that = this
 
-        if (this.isShown) return
+      if (this.isShown) return
 
-        $('body').addClass('modal-open')
+      $('body').addClass('modal-open')
 
-        this.isShown = true
-        this.$element.trigger('show')
+      this.isShown = true
+      this.$element.trigger('show')
 
-        escape.call(this)
-        backdrop.call(this, function () {
-          var transition = $.support.transition && that.$element.hasClass('fade')
+      escape.call(this)
+      backdrop.call(this, function () {
+        var transition = $.support.transition && that.$element.hasClass('fade')
 
-          !that.$element.parent().length && that.$element.appendTo(document.body) //don't move modals dom position
+        !that.$element.parent().length && that.$element.appendTo(document.body) //don't move modals dom position
 
-          that.$element
-            .show()
+        that.$element
+          .show()
 
-          if (transition) {
-            that.$element[0].offsetWidth // force reflow
-          }
+        if (transition) {
+          that.$element[0].offsetWidth // force reflow
+        }
 
-          that.$element.addClass('in')
+        that.$element.addClass('in')
 
-          transition ?
-            that.$element.one($.support.transition.end, function () { that.$element.trigger('shown') }) :
-            that.$element.trigger('shown')
+        transition ?
+          that.$element.one($.support.transition.end, function () { that.$element.trigger('shown') }) :
+          that.$element.trigger('shown')
 
-        })
-      }
+      })
+    }
 
     , hide: function ( e ) {
-        e && e.preventDefault()
+      e && e.preventDefault()
 
-        if (!this.isShown) return
+      if (!this.isShown) return
 
-        var that = this
-        this.isShown = false
+      var that = this
+      this.isShown = false
 
-        $('body').removeClass('modal-open')
+      $('body').removeClass('modal-open')
 
-        escape.call(this)
+      escape.call(this)
 
-        this.$element
-          .trigger('hide')
-          .removeClass('in')
+      this.$element
+        .trigger('hide')
+        .removeClass('in')
 
-        $.support.transition && this.$element.hasClass('fade') ?
-          hideWithTransition.call(this) :
-          hideModal.call(this)
-      }
+      $.support.transition && this.$element.hasClass('fade') ?
+        hideWithTransition.call(this) :
+        hideModal.call(this)
+    }
 
   }
 
 
- /* MODAL PRIVATE METHODS
-  * ===================== */
+  /* MODAL PRIVATE METHODS
+   * ===================== */
 
   function hideWithTransition() {
     var that = this
       , timeout = setTimeout(function () {
-          that.$element.off($.support.transition.end)
-          hideModal.call(that)
-        }, 500)
+      that.$element.off($.support.transition.end)
+      hideModal.call(that)
+    }, 500)
 
     this.$element.one($.support.transition.end, function () {
       clearTimeout(timeout)
@@ -170,14 +170,14 @@
   }
 
 
- /* MODAL PLUGIN DEFINITION
-  * ======================= */
+  /* MODAL PLUGIN DEFINITION
+   * ======================= */
 
   $.fn.modal = function ( option ) {
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('modal')
-        , options = $.extend({}, $.fn.modal.defaults, typeof option == 'object' && option)
+        , options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option)
       if (!data) $this.data('modal', (data = new Modal(this, options)))
       if (typeof option == 'string') data[option]()
       else if (options.show) data.show()
@@ -185,7 +185,7 @@
   }
 
   $.fn.modal.defaults = {
-      backdrop: true
+    backdrop: true
     , keyboard: true
     , show: true
   }
@@ -193,8 +193,8 @@
   $.fn.modal.Constructor = Modal
 
 
- /* MODAL DATA-API
-  * ============== */
+  /* MODAL DATA-API
+   * ============== */
 
   $(function () {
     $('body').on('click.modal.data-api', '[data-toggle="modal"]', function ( e ) {
@@ -207,4 +207,4 @@
     })
   })
 
-}( window.jQuery )
+}( window.jQuery );

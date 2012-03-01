@@ -1,5 +1,5 @@
 /* ========================================================
- * bootstrap-tab.js v2.0.0
+ * bootstrap-tab.js v2.0.1
  * http://twitter.github.com/bootstrap/javascript.html#tabs
  * ========================================================
  * Copyright 2012 Twitter, Inc.
@@ -22,8 +22,8 @@
 
   "use strict"
 
- /* TAB CLASS DEFINITION
-  * ==================== */
+  /* TAB CLASS DEFINITION
+   * ==================== */
 
   var Tab = function ( element ) {
     this.element = $(element)
@@ -33,7 +33,7 @@
 
     constructor: Tab
 
-  , show: function () {
+    , show: function () {
       var $this = this.element
         , $ul = $this.closest('ul:not(.dropdown-menu)')
         , selector = $this.attr('data-target')
@@ -51,7 +51,7 @@
 
       $this.trigger({
         type: 'show'
-      , relatedTarget: previous
+        , relatedTarget: previous
       })
 
       $target = $(selector)
@@ -60,16 +60,16 @@
       this.activate($target, $target.parent(), function () {
         $this.trigger({
           type: 'shown'
-        , relatedTarget: previous
+          , relatedTarget: previous
         })
       })
     }
 
-  , activate: function ( element, container, callback) {
+    , activate: function ( element, container, callback) {
       var $active = container.find('> .active')
         , transition = callback
-            && $.support.transition
-            && $active.hasClass('fade')
+        && $.support.transition
+        && $active.hasClass('fade')
 
       function next() {
         $active
@@ -102,8 +102,8 @@
   }
 
 
- /* TAB PLUGIN DEFINITION
-  * ===================== */
+  /* TAB PLUGIN DEFINITION
+   * ===================== */
 
   $.fn.tab = function ( option ) {
     return this.each(function () {
@@ -117,8 +117,8 @@
   $.fn.tab.Constructor = Tab
 
 
- /* TAB DATA-API
-  * ============ */
+  /* TAB DATA-API
+   * ============ */
 
   $(function () {
     $('body').on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
@@ -127,4 +127,4 @@
     })
   })
 
-}( window.jQuery )
+}( window.jQuery );

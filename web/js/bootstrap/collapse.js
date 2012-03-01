@@ -1,5 +1,5 @@
 /* =============================================================
- * bootstrap-collapse.js v2.0.0
+ * bootstrap-collapse.js v2.0.1
  * http://twitter.github.com/bootstrap/javascript.html#collapse
  * =============================================================
  * Copyright 2012 Twitter, Inc.
@@ -22,7 +22,7 @@
   "use strict"
 
   var Collapse = function ( element, options ) {
-  	this.$element = $(element)
+    this.$element = $(element)
     this.options = $.extend({}, $.fn.collapse.defaults, options)
 
     if (this.options["parent"]) {
@@ -36,12 +36,12 @@
 
     constructor: Collapse
 
-  , dimension: function () {
+    , dimension: function () {
       var hasWidth = this.$element.hasClass('width')
       return hasWidth ? 'width' : 'height'
     }
 
-  , show: function () {
+    , show: function () {
       var dimension = this.dimension()
         , scroll = $.camelCase(['scroll', dimension].join('-'))
         , actives = this.$parent && this.$parent.find('.in')
@@ -59,14 +59,14 @@
 
     }
 
-  , hide: function () {
+    , hide: function () {
       var dimension = this.dimension()
       this.reset(this.$element[dimension]())
       this.transition('removeClass', 'hide', 'hidden')
       this.$element[dimension](0)
     }
 
-  , reset: function ( size ) {
+    , reset: function ( size ) {
       var dimension = this.dimension()
 
       this.$element
@@ -77,12 +77,12 @@
       this.$element.addClass('collapse')
     }
 
-  , transition: function ( method, startEvent, completeEvent ) {
+    , transition: function ( method, startEvent, completeEvent ) {
       var that = this
         , complete = function () {
-            if (startEvent == 'show') that.reset()
-            that.$element.trigger(completeEvent)
-          }
+        if (startEvent == 'show') that.reset()
+        that.$element.trigger(completeEvent)
+      }
 
       this.$element
         .trigger(startEvent)
@@ -91,16 +91,16 @@
       $.support.transition && this.$element.hasClass('collapse') ?
         this.$element.one($.support.transition.end, complete) :
         complete()
-  	}
+    }
 
-  , toggle: function () {
+    , toggle: function () {
       this[this.$element.hasClass('in') ? 'hide' : 'show']()
-  	}
+    }
 
   }
 
   /* COLLAPSIBLE PLUGIN DEFINITION
-  * ============================== */
+   * ============================== */
 
   $.fn.collapse = function ( option ) {
     return this.each(function () {
@@ -119,18 +119,18 @@
   $.fn.collapse.Constructor = Collapse
 
 
- /* COLLAPSIBLE DATA-API
-  * ==================== */
+  /* COLLAPSIBLE DATA-API
+   * ==================== */
 
   $(function () {
     $('body').on('click.collapse.data-api', '[data-toggle=collapse]', function ( e ) {
       var $this = $(this), href
         , target = $this.attr('data-target')
-          || e.preventDefault()
-          || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
+        || e.preventDefault()
+        || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '') //strip for ie7
         , option = $(target).data('collapse') ? 'toggle' : $this.data()
       $(target).collapse(option)
     })
   })
 
-}( window.jQuery )
+}( window.jQuery );

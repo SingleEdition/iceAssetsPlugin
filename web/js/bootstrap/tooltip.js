@@ -1,5 +1,5 @@
 /* ===========================================================
- * bootstrap-tooltip.js v2.0.0
+ * bootstrap-tooltip.js v2.0.1
  * http://twitter.github.com/bootstrap/javascript.html#tooltips
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ===========================================================
@@ -22,8 +22,8 @@
 
   "use strict"
 
- /* TOOLTIP PUBLIC CLASS DEFINITION
-  * =============================== */
+  /* TOOLTIP PUBLIC CLASS DEFINITION
+   * =============================== */
 
   var Tooltip = function ( element, options ) {
     this.init('tooltip', element, options)
@@ -33,7 +33,7 @@
 
     constructor: Tooltip
 
-  , init: function ( type, element, options ) {
+    , init: function ( type, element, options ) {
       var eventIn
         , eventOut
 
@@ -54,20 +54,20 @@
         this.fixTitle()
     }
 
-  , getOptions: function ( options ) {
+    , getOptions: function ( options ) {
       options = $.extend({}, $.fn[this.type].defaults, options, this.$element.data())
 
       if (options.delay && typeof options.delay == 'number') {
         options.delay = {
           show: options.delay
-        , hide: options.delay
+          , hide: options.delay
         }
       }
 
       return options
     }
 
-  , enter: function ( e ) {
+    , enter: function ( e ) {
       var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
       if (!self.options.delay || !self.options.delay.show) {
@@ -82,7 +82,7 @@
       }
     }
 
-  , leave: function ( e ) {
+    , leave: function ( e ) {
       var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
       if (!self.options.delay || !self.options.delay.hide) {
@@ -97,7 +97,7 @@
       }
     }
 
-  , show: function () {
+    , show: function () {
       var $tip
         , inside
         , pos
@@ -152,13 +152,13 @@
       }
     }
 
-  , setContent: function () {
+    , setContent: function () {
       var $tip = this.tip()
       $tip.find('.tooltip-inner').html(this.getTitle())
       $tip.removeClass('fade in top bottom left right')
     }
 
-  , hide: function () {
+    , hide: function () {
       var that = this
         , $tip = this.tip()
 
@@ -180,25 +180,25 @@
         $tip.remove()
     }
 
-  , fixTitle: function () {
+    , fixTitle: function () {
       var $e = this.$element
       if ($e.attr('title') || typeof($e.attr('data-original-title')) != 'string') {
         $e.attr('data-original-title', $e.attr('title') || '').removeAttr('title')
       }
     }
 
-  , hasContent: function () {
+    , hasContent: function () {
       return this.getTitle()
     }
 
-  , getPosition: function (inside) {
+    , getPosition: function (inside) {
       return $.extend({}, (inside ? {top: 0, left: 0} : this.$element.offset()), {
         width: this.$element[0].offsetWidth
-      , height: this.$element[0].offsetHeight
+        , height: this.$element[0].offsetHeight
       })
     }
 
-  , getTitle: function () {
+    , getTitle: function () {
       var title
         , $e = this.$element
         , o = this.options
@@ -211,11 +211,11 @@
       return title
     }
 
-  , tip: function () {
+    , tip: function () {
       return this.$tip = this.$tip || $(this.options.template)
     }
 
-  , validate: function () {
+    , validate: function () {
       if (!this.$element[0].parentNode) {
         this.hide()
         this.$element = null
@@ -223,27 +223,27 @@
       }
     }
 
-  , enable: function () {
+    , enable: function () {
       this.enabled = true
     }
 
-  , disable: function () {
+    , disable: function () {
       this.enabled = false
     }
 
-  , toggleEnabled: function () {
+    , toggleEnabled: function () {
       this.enabled = !this.enabled
     }
 
-  , toggle: function () {
+    , toggle: function () {
       this[this.tip().hasClass('in') ? 'hide' : 'show']()
     }
 
   }
 
 
- /* TOOLTIP PLUGIN DEFINITION
-  * ========================= */
+  /* TOOLTIP PLUGIN DEFINITION
+   * ========================= */
 
   $.fn.tooltip = function ( option ) {
     return this.each(function () {
@@ -259,12 +259,12 @@
 
   $.fn.tooltip.defaults = {
     animation: true
-  , delay: 0
-  , selector: false
-  , placement: 'top'
-  , trigger: 'hover'
-  , title: ''
-  , template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+    , delay: 0
+    , selector: false
+    , placement: 'top'
+    , trigger: 'hover'
+    , title: ''
+    , template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
   }
 
-}( window.jQuery )
+}( window.jQuery );

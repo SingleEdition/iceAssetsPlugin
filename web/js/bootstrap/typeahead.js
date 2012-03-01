@@ -1,5 +1,5 @@
 /* =============================================================
- * bootstrap-typeahead.js v2.0.0
+ * bootstrap-typeahead.js v2.0.1
  * http://twitter.github.com/bootstrap/javascript.html#typeahead
  * =============================================================
  * Copyright 2012 Twitter, Inc.
@@ -37,20 +37,20 @@
 
     constructor: Typeahead
 
-  , select: function () {
+    , select: function () {
       var val = this.$menu.find('.active').attr('data-value')
       this.$element.val(val)
       return this.hide()
     }
 
-  , show: function () {
+    , show: function () {
       var pos = $.extend({}, this.$element.offset(), {
         height: this.$element[0].offsetHeight
       })
 
       this.$menu.css({
         top: pos.top + pos.height
-      , left: pos.left
+        , left: pos.left
       })
 
       this.$menu.show()
@@ -58,13 +58,13 @@
       return this
     }
 
-  , hide: function () {
+    , hide: function () {
       this.$menu.hide()
       this.shown = false
       return this
     }
 
-  , lookup: function (event) {
+    , lookup: function (event) {
       var that = this
         , items
         , q
@@ -88,11 +88,11 @@
       return this.render(items.slice(0, this.options.items)).show()
     }
 
-  , matcher: function (item) {
+    , matcher: function (item) {
       return ~item.toLowerCase().indexOf(this.query.toLowerCase())
     }
 
-  , sorter: function (items) {
+    , sorter: function (items) {
       var beginswith = []
         , caseSensitive = []
         , caseInsensitive = []
@@ -107,13 +107,13 @@
       return beginswith.concat(caseSensitive, caseInsensitive)
     }
 
-  , highlighter: function (item) {
+    , highlighter: function (item) {
       return item.replace(new RegExp('(' + this.query + ')', 'ig'), function ($1, match) {
         return '<strong>' + match + '</strong>'
       })
     }
 
-  , render: function (items) {
+    , render: function (items) {
       var that = this
 
       items = $(items).map(function (i, item) {
@@ -127,7 +127,7 @@
       return this
     }
 
-  , next: function (event) {
+    , next: function (event) {
       var active = this.$menu.find('.active').removeClass('active')
         , next = active.next()
 
@@ -138,7 +138,7 @@
       next.addClass('active')
     }
 
-  , prev: function (event) {
+    , prev: function (event) {
       var active = this.$menu.find('.active').removeClass('active')
         , prev = active.prev()
 
@@ -149,7 +149,7 @@
       prev.addClass('active')
     }
 
-  , listen: function () {
+    , listen: function () {
       this.$element
         .on('blur',     $.proxy(this.blur, this))
         .on('keypress', $.proxy(this.keypress, this))
@@ -164,7 +164,7 @@
         .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
     }
 
-  , keyup: function (e) {
+    , keyup: function (e) {
       e.stopPropagation()
       e.preventDefault()
 
@@ -187,9 +187,9 @@
           this.lookup()
       }
 
-  }
+    }
 
-  , keypress: function (e) {
+    , keypress: function (e) {
       e.stopPropagation()
       if (!this.shown) return
 
@@ -212,20 +212,20 @@
       }
     }
 
-  , blur: function (e) {
+    , blur: function (e) {
       var that = this
       e.stopPropagation()
       e.preventDefault()
       setTimeout(function () { that.hide() }, 150)
     }
 
-  , click: function (e) {
+    , click: function (e) {
       e.stopPropagation()
       e.preventDefault()
       this.select()
     }
 
-  , mouseenter: function (e) {
+    , mouseenter: function (e) {
       this.$menu.find('.active').removeClass('active')
       $(e.currentTarget).addClass('active')
     }
@@ -248,16 +248,16 @@
 
   $.fn.typeahead.defaults = {
     source: []
-  , items: 8
-  , menu: '<ul class="typeahead dropdown-menu"></ul>'
-  , item: '<li><a href="#"></a></li>'
+    , items: 8
+    , menu: '<ul class="typeahead dropdown-menu"></ul>'
+    , item: '<li><a href="#"></a></li>'
   }
 
   $.fn.typeahead.Constructor = Typeahead
 
 
- /* TYPEAHEAD DATA-API
-  * ================== */
+  /* TYPEAHEAD DATA-API
+   * ================== */
 
   $(function () {
     $('body').on('focus.typeahead.data-api', '[data-provide="typeahead"]', function (e) {
@@ -268,4 +268,4 @@
     })
   })
 
-}( window.jQuery )
+}( window.jQuery );

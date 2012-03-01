@@ -1,5 +1,5 @@
 /* ============================================================
- * bootstrap-dropdown.js v2.0.0
+ * bootstrap-dropdown.js v2.0.1
  * http://twitter.github.com/bootstrap/javascript.html#dropdowns
  * ============================================================
  * Copyright 2012 Twitter, Inc.
@@ -22,22 +22,22 @@
 
   "use strict"
 
- /* DROPDOWN CLASS DEFINITION
-  * ========================= */
+  /* DROPDOWN CLASS DEFINITION
+   * ========================= */
 
   var toggle = '[data-toggle="dropdown"]'
     , Dropdown = function ( element ) {
-        var $el = $(element).on('click.dropdown.data-api', this.toggle)
-        $('html').on('click.dropdown.data-api', function () {
-          $el.parent().removeClass('open')
-        })
-      }
+    var $el = $(element).on('click.dropdown.data-api', this.toggle)
+    $('html').on('click.dropdown.data-api', function () {
+      $el.parent().removeClass('open')
+    })
+  }
 
   Dropdown.prototype = {
 
     constructor: Dropdown
 
-  , toggle: function ( e ) {
+    , toggle: function ( e ) {
       var $this = $(this)
         , selector = $this.attr('data-target')
         , $parent
@@ -89,4 +89,4 @@
     $('body').on('click.dropdown.data-api', toggle, Dropdown.prototype.toggle)
   })
 
-}( window.jQuery )
+}( window.jQuery );

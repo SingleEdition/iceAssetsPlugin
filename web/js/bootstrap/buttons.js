@@ -1,5 +1,5 @@
 /* ============================================================
- * bootstrap-button.js v2.0.0
+ * bootstrap-button.js v2.0.1
  * http://twitter.github.com/bootstrap/javascript.html#buttons
  * ============================================================
  * Copyright 2012 Twitter, Inc.
@@ -21,8 +21,8 @@
 
   "use strict"
 
- /* BUTTON PUBLIC CLASS DEFINITION
-  * ============================== */
+  /* BUTTON PUBLIC CLASS DEFINITION
+   * ============================== */
 
   var Button = function ( element, options ) {
     this.$element = $(element)
@@ -31,42 +31,42 @@
 
   Button.prototype = {
 
-      constructor: Button
+    constructor: Button
 
     , setState: function ( state ) {
-        var d = 'disabled'
-          , $el = this.$element
-          , data = $el.data()
-          , val = $el.is('input') ? 'val' : 'html'
+      var d = 'disabled'
+        , $el = this.$element
+        , data = $el.data()
+        , val = $el.is('input') ? 'val' : 'html'
 
-        state = state + 'Text'
-        data.resetText || $el.data('resetText', $el[val]())
+      state = state + 'Text'
+      data.resetText || $el.data('resetText', $el[val]())
 
-        $el[val](data[state] || this.options[state])
+      $el[val](data[state] || this.options[state])
 
-        // push to event loop to allow forms to submit
-        setTimeout(function () {
-          state == 'loadingText' ?
-            $el.addClass(d).attr(d, d) :
-            $el.removeClass(d).removeAttr(d)
-        }, 0)
-      }
+      // push to event loop to allow forms to submit
+      setTimeout(function () {
+        state == 'loadingText' ?
+          $el.addClass(d).attr(d, d) :
+          $el.removeClass(d).removeAttr(d)
+      }, 0)
+    }
 
     , toggle: function () {
-        var $parent = this.$element.parent('[data-toggle="buttons-radio"]')
+      var $parent = this.$element.parent('[data-toggle="buttons-radio"]')
 
-        $parent && $parent
-          .find('.active')
-          .removeClass('active')
+      $parent && $parent
+        .find('.active')
+        .removeClass('active')
 
-        this.$element.toggleClass('active')
-      }
+      this.$element.toggleClass('active')
+    }
 
   }
 
 
- /* BUTTON PLUGIN DEFINITION
-  * ======================== */
+  /* BUTTON PLUGIN DEFINITION
+   * ======================== */
 
   $.fn.button = function ( option ) {
     return this.each(function () {
@@ -86,13 +86,13 @@
   $.fn.button.Constructor = Button
 
 
- /* BUTTON DATA-API
-  * =============== */
+  /* BUTTON DATA-API
+   * =============== */
 
   $(function () {
     $('body').on('click.button.data-api', '[data-toggle^=button]', function ( e ) {
-      $(e.target).button('toggle')
+      $(e.currentTarget).button('toggle')
     })
   })
 
-}( window.jQuery )
+}( window.jQuery );

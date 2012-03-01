@@ -1,5 +1,5 @@
 /* ==========================================================
- * bootstrap-carousel.js v2.0.0
+ * bootstrap-carousel.js v2.0.1
  * http://twitter.github.com/bootstrap/javascript.html#carousel
  * ==========================================================
  * Copyright 2012 Twitter, Inc.
@@ -22,8 +22,8 @@
 
   "use strict"
 
- /* CAROUSEL CLASS DEFINITION
-  * ========================= */
+  /* CAROUSEL CLASS DEFINITION
+   * ========================= */
 
   var Carousel = function (element, options) {
     this.$element = $(element)
@@ -38,7 +38,7 @@
       return this
     }
 
-  , to: function (pos) {
+    , to: function (pos) {
       var $active = this.$element.find('.active')
         , children = $active.parent().children()
         , activePos = children.index($active)
@@ -59,28 +59,31 @@
       return this.slide(pos > activePos ? 'next' : 'prev', $(children[pos]))
     }
 
-  , pause: function () {
+    , pause: function () {
       clearInterval(this.interval)
+      this.interval = null
       return this
     }
 
-  , next: function () {
+    , next: function () {
       if (this.sliding) return
       return this.slide('next')
     }
 
-  , prev: function () {
+    , prev: function () {
       if (this.sliding) return
       return this.slide('prev')
     }
 
-  , slide: function (type, next) {
+    , slide: function (type, next) {
       var $active = this.$element.find('.active')
         , $next = next || $active[type]()
         , isCycling = this.interval
         , direction = type == 'next' ? 'left' : 'right'
         , fallback  = type == 'next' ? 'first' : 'last'
         , that = this
+
+      if (!$next.length) return
 
       this.sliding = true
 
@@ -116,8 +119,8 @@
   }
 
 
- /* CAROUSEL PLUGIN DEFINITION
-  * ========================== */
+  /* CAROUSEL PLUGIN DEFINITION
+   * ========================== */
 
   $.fn.carousel = function ( option ) {
     return this.each(function () {
@@ -138,8 +141,8 @@
   $.fn.carousel.Constructor = Carousel
 
 
- /* CAROUSEL DATA-API
-  * ================= */
+  /* CAROUSEL DATA-API
+   * ================= */
 
   $(function () {
     $('body').on('click.carousel.data-api', '[data-slide]', function ( e ) {
@@ -151,4 +154,4 @@
     })
   })
 
-}( window.jQuery )
+}( window.jQuery );

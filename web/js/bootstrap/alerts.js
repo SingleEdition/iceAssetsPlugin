@@ -1,5 +1,5 @@
 /* ==========================================================
- * bootstrap-alert.js v2.0.0
+ * bootstrap-alert.js v2.0.1
  * http://twitter.github.com/bootstrap/javascript.html#alerts
  * ==========================================================
  * Copyright 2012 Twitter, Inc.
@@ -22,19 +22,19 @@
 
   "use strict"
 
- /* ALERT CLASS DEFINITION
-  * ====================== */
+  /* ALERT CLASS DEFINITION
+   * ====================== */
 
   var dismiss = '[data-dismiss="alert"]'
     , Alert = function ( el ) {
-        $(el).on('click', dismiss, this.close)
-      }
+    $(el).on('click', dismiss, this.close)
+  }
 
   Alert.prototype = {
 
     constructor: Alert
 
-  , close: function ( e ) {
+    , close: function ( e ) {
       var $this = $(this)
         , selector = $this.attr('data-target')
         , $parent
@@ -51,11 +51,14 @@
 
       $parent.length || ($parent = $this.hasClass('alert') ? $this : $this.parent())
 
-      $parent.removeClass('in')
+      $parent
+        .trigger('close')
+        .removeClass('in')
 
       function removeElement() {
-        $parent.remove()
-        $parent.trigger('closed')
+        $parent
+          .trigger('closed')
+          .remove()
       }
 
       $.support.transition && $parent.hasClass('fade') ?
@@ -66,8 +69,8 @@
   }
 
 
- /* ALERT PLUGIN DEFINITION
-  * ======================= */
+  /* ALERT PLUGIN DEFINITION
+   * ======================= */
 
   $.fn.alert = function ( option ) {
     return this.each(function () {
@@ -81,11 +84,11 @@
   $.fn.alert.Constructor = Alert
 
 
- /* ALERT DATA-API
-  * ============== */
+  /* ALERT DATA-API
+   * ============== */
 
   $(function () {
     $('body').on('click.alert.data-api', dismiss, Alert.prototype.close)
   })
 
-}( window.jQuery )
+}( window.jQuery );

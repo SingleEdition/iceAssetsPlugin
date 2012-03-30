@@ -146,7 +146,7 @@ function ice_include_javascripts()
 /**
  * Generates a <link> tag
  *
- * @param <type> $stylesheets
+ * @param array $stylesheets
  */
 function ice_combine_stylesheets($stylesheets)
 {
@@ -173,7 +173,8 @@ function ice_combine_stylesheets($stylesheets)
 /**
  * Generates a <script> tag
  *
- * @param <type> $javascripts
+ * @param     array  $javascripts
+ * @return    void
  */
 function ice_combine_javascripts($javascripts)
 {
@@ -195,4 +196,52 @@ function ice_combine_javascripts($javascripts)
 
     echo '<script type="text/javascript" src="', $url,'"></script>';
   }
+}
+
+/**
+ * Dynamic Dummy Image Generator
+ *
+ * You can specify one dimension and a ratio and the script will calculate the right value.
+ * Example: 640x4:3 or 16:9x1080
+ *
+ * @param     string|array  $size
+ * @param     string        $background_color
+ * @param     string        $foreground_color
+ * @param     null|string   $text
+ *
+ * @return    string
+ */
+function ice_image_tag_placeholder($size, $background_color = 'ccc', $foreground_color = '969696', $text = null)
+{
+  if (is_array($size))
+  {
+    $size = implode('x', array_slice($size, 0, 2));
+  }
+  $x = $size .'/'. $background_color .'/'. $foreground_color .'.png';
+
+  return image_tag(ice_cdn_domain('assets') .'/placeholdr.php?x='. $x .'&text='. urlencode($text));
+}
+
+/**
+ * Get placeholders related to the site you are developing,
+ * by pulling images from flickr based on tags
+ *
+ * @param     string|array  $size
+ * @param     array         $tags
+ * @param     integer       $i
+ *
+ * @return    string
+ */
+function ice_image_tag_flickholdr($size, $tags = array(), $i = 1)
+{
+  if (is_array($size))
+  {
+    $size = implode('/', array_slice($size, 0, 2));
+  }
+  else if (false !== stripos($size, 'x'))
+  {
+    $size = str_replace('x', '/', $size);
+  }
+
+  return image_tag('http://flickholdr.com/'. $size .'/'. implode(',', (array) $tags) .'/'. $i);
 }

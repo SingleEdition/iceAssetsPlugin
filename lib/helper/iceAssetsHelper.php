@@ -205,13 +205,14 @@ function ice_combine_javascripts($javascripts)
  * Example: 640x4:3 or 16:9x1080
  *
  * @param     string|array  $size
+ * @param     array         $options
  * @param     string        $background_color
  * @param     string        $foreground_color
  * @param     null|string   $text
  *
  * @return    string
  */
-function ice_image_tag_placeholder($size, $background_color = 'ccc', $foreground_color = '969696', $text = null)
+function ice_image_tag_placeholder($size, $options = array(), $background_color = 'ccc', $foreground_color = '969696', $text = null)
 {
   if (is_array($size))
   {
@@ -219,7 +220,7 @@ function ice_image_tag_placeholder($size, $background_color = 'ccc', $foreground
   }
   $x = $size .'/'. $background_color .'/'. $foreground_color .'.png';
 
-  return image_tag(ice_cdn_domain('assets') .'/placeholdr.php?x='. $x .'&text='. urlencode($text));
+  return image_tag(ice_cdn_domain('assets') .'/placeholdr.php?x='. $x .'&text='. urlencode($text), $options);
 }
 
 /**

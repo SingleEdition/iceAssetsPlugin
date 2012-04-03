@@ -206,18 +206,23 @@ function ice_combine_javascripts($javascripts)
  *
  * @param     string|array  $size
  * @param     array         $options
- * @param     string        $background_color
- * @param     string        $foreground_color
- * @param     null|string   $text
  *
  * @return    string
  */
-function ice_image_tag_placeholder($size, $options = array(), $background_color = 'ccc', $foreground_color = '969696', $text = null)
+function ice_image_tag_placeholder($size, $options = array())
 {
   if (is_array($size))
   {
     $size = implode('x', array_slice($size, 0, 2));
   }
+
+  $text = isset($options['text']) ? (string) $options['text'] : null;
+  $background_color = isset($options['background_color']) ? (string) $options['background_color'] : 'ccc';
+  $foreground_color = isset($options['foreground_color']) ? (string) $options['foreground_color'] : '969696';
+
+  // Unset the custom options
+  unset($options['text'], $options['background_color'], $options['foreground_color']);
+
   $x = $size .'/'. $background_color .'/'. $foreground_color .'.png';
 
   return image_tag(ice_cdn_domain('assets') .'/placeholdr.php?x='. $x .'&text='. urlencode($text), $options);
@@ -228,12 +233,11 @@ function ice_image_tag_placeholder($size, $options = array(), $background_color 
  * by pulling images from flickr based on tags
  *
  * @param     string|array  $size
- * @param     array         $tags
- * @param     integer       $i
+ * @param     array         $options
  *
  * @return    string
  */
-function ice_image_tag_flickholdr($size, $tags = array(), $i = 1)
+function ice_image_tag_flickholdr($size, $options = array())
 {
   if (is_array($size))
   {
@@ -244,5 +248,11 @@ function ice_image_tag_flickholdr($size, $tags = array(), $i = 1)
     $size = str_replace('x', '/', $size);
   }
 
-  return image_tag('http://flickholdr.com/'. $size .'/'. implode(',', (array) $tags) .'/'. $i);
+  $i = isset($options['i']) ? (int) $options['i'] : 1;
+  $tags = isset($options['tags']) ? (array) $options['tags'] : array();
+
+  // Unset the custom options
+  unset($options['i'], $options['tags']);
+
+  return image_tag('http://flickholdr.com/'. $size .'/'. implode(',', (array) $tags) .'/'. $i, $options);
 }

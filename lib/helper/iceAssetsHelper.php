@@ -49,6 +49,14 @@ function ice_use_stylesheet($stylesheet, $position = '', $options = array())
 
 function ice_include_stylesheets()
 {
+  // Do not combine or do anything special if not in Production
+  if (SF_ENV !== 'prod')
+  {
+    include_stylesheets();
+
+    return;
+  }
+
   $response = sfContext::getInstance()->getResponse();
   sfConfig::set('symfony.asset.stylesheets_included', true);
 
@@ -97,6 +105,14 @@ function ice_include_stylesheets()
 
 function ice_include_javascripts()
 {
+  // Do not combine or do anything special if not in Production
+  if (SF_ENV !== 'prod')
+  {
+    include_javascripts();
+
+    return;
+  }
+
   $response = sfContext::getInstance()->getResponse();
   sfConfig::set('symfony.asset.javascripts_included', true);
 

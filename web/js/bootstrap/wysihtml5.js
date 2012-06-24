@@ -15,16 +15,16 @@
 						"</li>",
 		"emphasis":     "<li>" +
 							"<div class='btn-group'>"
-							    + "<a class='btn' data-wysihtml5-command='bold' title='CTRL+B'><strong>Bold</strong></a>"
-							    + "<a class='btn' data-wysihtml5-command='italic' title='CTRL+I'><i>Italic</i></a>"
+							    + "<a class='btn btn-mini' data-wysihtml5-command='bold' title='CTRL+B'><strong>Bold</strong></a>"
+							    + "<a class='btn btn-mini' data-wysihtml5-command='italic' title='CTRL+I'><i>Italic</i></a>"
 							+ "</div>"
 						+ "</li>",
 		"lists": 	"<li>"
 						+ "<div class='btn-group'>"
-					    	+ "<a class='btn' data-wysihtml5-command='insertUnorderedList' title='Unordered List'><i class='icon-list'></i> Bullets</a>"
-						    + "<a class='btn' data-wysihtml5-command='insertOrderedList' title='Ordered List'><i class='icon-th-list'></i> Numbers</a>"
-						    + "<a class='btn' data-wysihtml5-command='Outdent' title='Outdent'><i class='icon-indent-right'></i></a>"
-						    + "<a class='btn' data-wysihtml5-command='Indent' title='Indent'><i class='icon-indent-left'></i></a>"
+					    	+ "<a class='btn btn-mini' data-wysihtml5-command='insertUnorderedList' title='Unordered List'><i class='icon-list-ul'></i> Bullets</a>"
+						    + "<a class='btn btn-mini' data-wysihtml5-command='insertOrderedList' title='Ordered List'><i class='icon-list-ol'></i> Numbers</a>"
+						    + "<a class='btn btn-mini' data-wysihtml5-command='Outdent' title='Outdent'><i class='icon-indent-right'></i></a>"
+						    + "<a class='btn btn-mini' data-wysihtml5-command='Indent' title='Indent'><i class='icon-indent-left'></i></a>"
 						+ "</div>"
 					+ "</li>",
 
@@ -44,7 +44,7 @@
 							+ "</div>"
 						+ "</div>"
 
-				    	+ "<a class='btn' data-wysihtml5-command='createLink' title='Link'><i class='icon-share'></i></a>"
+				    	+ "<a class='btn btn-mini' data-wysihtml5-command='createLink' title='Link'><i class='icon-share'></i></a>"
 
 					+ "</li>",
 
@@ -64,14 +64,14 @@
 							+ "</div>"
 						+ "</div>"
 
-						+ "<a class='btn' data-wysihtml5-command='insertImage' title='Insert image'><i class='icon-picture'></i></a>"
+						+ "<a class='btn btn-mini' data-wysihtml5-command='insertImage' title='Insert image'><i class='icon-picture'></i></a>"
 
 					+ "</li>",
 
 		"html":
 						"<li>"
 							+ "<div class='btn-group'>"
-								+ "<a class='btn' data-wysihtml5-action='change_view' title='Edit HTML'><i class='icon-pencil'></i></a>"
+								+ "<a class='btn btn-mini' data-wysihtml5-action='change_view' title='Edit HTML'><i class='icon-pencil'></i></a>"
 							+ "</div>"
 						+ "</li>"
 	};

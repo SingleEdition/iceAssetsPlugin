@@ -69,7 +69,6 @@
     handle.bind("dialog2.ajax-start", function() {
       dialog.options({buttons: options.autoAddCancelButton ? localizedCancelButton() : {}});
       handle.parent().addClass("loading");
-      console.log(handle.parent());
     });
 
     handle.bind("dialog2.content-update", function() {

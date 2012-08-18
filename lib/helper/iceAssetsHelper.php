@@ -1,12 +1,9 @@
 <?php
 
-function ice_cdn_domain($subdomain = null, $secure = false)
+function ice_cdn_domain($subdomain = null)
 {
-  $domain = sfConfig::get('app_ice_assets_domain');
-
   return sprintf(
-    'http%s://%s%s',
-    $secure ? 's' : null, $subdomain ? $subdomain .'.' : null, $domain
+    '//%s%s', $subdomain ? $subdomain .'.' : null, sfConfig::get('app_ice_assets_domain')
   );
 }
 
@@ -22,19 +19,19 @@ function ice_cdn_image_tag($image, $subdomain = null, $options = array())
   return image_tag(ice_cdn_image_src($image, $subdomain), $options);
 }
 
-function ice_cdn_image_src($image, $subdomain = null, $secure = false)
+function ice_cdn_image_src($image, $subdomain = null)
 {
-  return ice_cdn_domain($subdomain, $secure) .'/images/'. $image;
+  return ice_cdn_domain($subdomain) .'/images/'. $image;
 }
 
-function ice_cdn_stylesheet_src($stylesheet, $subdomain = null, $secure = false)
+function ice_cdn_stylesheet_src($stylesheet, $subdomain = null)
 {
-  return ice_cdn_domain($subdomain, $secure) .'/css/'. $stylesheet;
+  return ice_cdn_domain($subdomain) .'/css/'. $stylesheet;
 }
 
-function ice_cdn_javascript_src($javascript, $subdomain = null, $secure = false)
+function ice_cdn_javascript_src($javascript, $subdomain = null)
 {
-  return ice_cdn_domain($subdomain, $secure) .'/js/'. $javascript;
+  return ice_cdn_domain($subdomain) .'/js/'. $javascript;
 }
 
 function ice_use_javascript($js, $position = '', $options = array())
@@ -57,6 +54,7 @@ function ice_include_stylesheets()
     return;
   }
 
+  /** @var $response sfWebResponse */
   $response = sfContext::getInstance()->getResponse();
   sfConfig::set('symfony.asset.stylesheets_included', true);
 
@@ -113,6 +111,7 @@ function ice_include_javascripts()
     return;
   }
 
+  /** @var $response sfWebResponse */
   $response = sfContext::getInstance()->getResponse();
   sfConfig::set('symfony.asset.javascripts_included', true);
 

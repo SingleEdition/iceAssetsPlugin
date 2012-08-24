@@ -1,3 +1,8 @@
 AddType  application/x-woff             woff
 AddType  application/x-font-ttf         ttf
 AddType  application/vnd.bw-fontobject  eot
+
+# Avoid problems with http://developer.mozilla.org/En/HTTP_Access_Control#Access-Control-Allow-Origin
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin *
+</IfModule>

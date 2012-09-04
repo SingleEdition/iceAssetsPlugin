@@ -1,5 +1,5 @@
 /* =============================================================
- * bootstrap-typeahead.js v2.0.0
+ * bootstrap-typeahead.js v2.1.0
  * http://twitter.github.com/bootstrap/javascript.html#typeahead
  * =============================================================
  * Copyright 2012 Twitter, Inc.
@@ -17,22 +17,24 @@
  * limitations under the License.
  * ============================================================ */
 
-!function( $ ){
 
-  "use strict"
+!function($){
 
-  var Typeahead = function ( element, options ) {
+  "use strict"; // jshint ;_;
+
+
+ /* TYPEAHEAD PUBLIC CLASS DEFINITION
+  * ================================= */
+
+  var Typeahead = function (element, options) {
     this.$element = $(element)
     this.options = $.extend({}, $.fn.typeahead.defaults, options)
     this.matcher = this.options.matcher || this.matcher
     this.sorter = this.options.sorter || this.sorter
     this.highlighter = this.options.highlighter || this.highlighter
+    this.updater = this.options.updater || this.updater
     this.$menu = $(this.options.menu).appendTo('body')
     this.source = this.options.source
-    this.onselect = this.options.onselect
-    this.autoselect = this.options.autoselect
-    this.autowidth = this.options.autowidth
-    this.strings = true
     this.shown = false
     this.listen()
   }
@@ -42,24 +44,15 @@
     constructor: Typeahead
 
   , select: function () {
-      var text, original_text;
-      if (this.$menu.find('.active').length == 0) {
-        var val = this.$element.val();
-      }
-      else {
-        var val = JSON.parse(this.$menu.find('.active').attr('data-value'));
-      }
-
-      if (!this.strings) text = val[this.options.property]
-      else text = val
-
-      original_text = this.$element.val();
-      this.$element.val(text)
-
-      if (typeof this.onselect == "function")
-          this.onselect(text, original_text)
-
+      var val = this.$menu.find('.active').attr('data-value')
+      this.$element
+        .val(this.updater(val))
+        .change()
       return this.hide()
+    }
+
+  , updater: function (item) {
+      return item
     }
 
   , show: function () {
@@ -84,39 +77,24 @@
     }
 
   , lookup: function (event) {
-      var that = this
-        , items
-        , q
-        , value
+      var items
 
       this.query = this.$element.val()
 
-      if (typeof this.source == "function") {
-        value = this.source(this, this.query)
-        if (value) this.process(value)
-      } else {
-        this.process(this.source)
-      }
-    }
-
-  , process: function (results) {
-      var that = this
-        , items
-        , q
-
-      if (results.length && typeof results[0] != "string")
-          this.strings = false
-
-      this.query = this.$element.val()
-
-      if (!this.query) {
+      if (!this.query || this.query.length < this.options.minLength) {
         return this.shown ? this.hide() : this
       }
 
-      items = $.grep(results, function (item) {
-        if (!that.strings)
-          item = item[that.options.property]
-        if (that.matcher(item)) return item
+      items = $.isFunction(this.source) ? this.source(this.query, $.proxy(this.process, this)) : this.source
+
+      return items ? this.process(items) : this
+    }
+
+  , process: function (items) {
+      var that = this
+
+      items = $.grep(items, function (item) {
+        return that.matcher(item)
       })
 
       items = this.sorter(items)
@@ -137,14 +115,10 @@
         , caseSensitive = []
         , caseInsensitive = []
         , item
-        , sortby
 
       while (item = items.shift()) {
-        if (this.strings) sortby = item
-        else sortby = item[this.options.property]
-
-        if (!sortby.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
-        else if (~sortby.indexOf(this.query)) caseSensitive.push(item)
+        if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+        else if (~item.indexOf(this.query)) caseSensitive.push(item)
         else caseInsensitive.push(item)
       }
 
@@ -152,7 +126,8 @@
     }
 
   , highlighter: function (item) {
-      return item.replace(new RegExp('(' + this.query + ')', 'ig'), function ($1, match) {
+      var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+      return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
         return '<strong>' + match + '</strong>'
       })
     }
@@ -161,15 +136,12 @@
       var that = this
 
       items = $(items).map(function (i, item) {
-        i = $(that.options.item).attr('data-value', JSON.stringify(item))
-        if (!that.strings)
-            item = item[that.options.property]
+        i = $(that.options.item).attr('data-value', item)
         i.find('a').html(that.highlighter(item))
         return i[0]
       })
 
-      if (that.autoselect) items.first().addClass('active')
-      if (that.autowidth) this.$menu.width(this.$element.width());
+      items.first().addClass('active')
       this.$menu.html(items)
       return this
     }
@@ -203,7 +175,7 @@
         .on('keyup',    $.proxy(this.keyup, this))
 
       if ($.browser.webkit || $.browser.msie) {
-        this.$element.on('keydown', $.proxy(this.keypress, this))
+        this.$element.on('keydown', $.proxy(this.keydown, this))
       }
 
       this.$menu
@@ -211,39 +183,7 @@
         .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
     }
 
-  , keyup: function (e) {
-      e.stopPropagation()
-      e.preventDefault()
-
-      switch(e.keyCode) {
-        case 40: // down arrow
-        case 38: // up arrow
-          break
-
-        case 13: // enter
-          if (!this.shown) return
-          this.select()
-          break
-
-        case 9: // tab
-          var that = this
-          e.stopPropagation()
-          e.preventDefault()
-          setTimeout(function () { that.hide() }, 150)
-          break
-
-        case 27: // escape
-          this.hide()
-          break
-
-        default:
-          this.lookup()
-      }
-
-  }
-
-  , keypress: function (e) {
-      e.stopPropagation()
+  , move: function (e) {
       if (!this.shown) return
 
       switch(e.keyCode) {
@@ -263,12 +203,47 @@
           this.next()
           break
       }
+
+      e.stopPropagation()
     }
+
+  , keydown: function (e) {
+      this.suppressKeyPressRepeat = !~$.inArray(e.keyCode, [40,38,9,13,27])
+      this.move(e)
+    }
+
+  , keypress: function (e) {
+      if (this.suppressKeyPressRepeat) return
+      this.move(e)
+    }
+
+  , keyup: function (e) {
+      switch(e.keyCode) {
+        case 40: // down arrow
+        case 38: // up arrow
+          break
+
+        case 9: // tab
+        case 13: // enter
+          if (!this.shown) return
+          this.select()
+          break
+
+        case 27: // escape
+          if (!this.shown) return
+          this.hide()
+          break
+
+        default:
+          this.lookup()
+      }
+
+      e.stopPropagation()
+      e.preventDefault()
+  }
 
   , blur: function (e) {
       var that = this
-      e.stopPropagation()
-      e.preventDefault()
       setTimeout(function () { that.hide() }, 150)
     }
 
@@ -289,7 +264,7 @@
   /* TYPEAHEAD PLUGIN DEFINITION
    * =========================== */
 
-  $.fn.typeahead = function ( option ) {
+  $.fn.typeahead = function (option) {
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('typeahead')
@@ -304,16 +279,13 @@
   , items: 8
   , menu: '<ul class="typeahead dropdown-menu"></ul>'
   , item: '<li><a href="#"></a></li>'
-  , onselect: null
-  , autoselect: true
-  , autowidth: true
-  , property: 'value'
+  , minLength: 1
   }
 
   $.fn.typeahead.Constructor = Typeahead
 
 
- /* TYPEAHEAD DATA-API
+ /*   TYPEAHEAD DATA-API
   * ================== */
 
   $(function () {
@@ -325,4 +297,4 @@
     })
   })
 
-}( window.jQuery );
+}(window.jQuery);

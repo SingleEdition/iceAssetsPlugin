@@ -1,5 +1,5 @@
 /* ===========================================================
- * bootstrap-popover.js v2.0.1
+ * bootstrap-popover.js v2.1.0
  * http://twitter.github.com/bootstrap/javascript.html#popovers
  * ===========================================================
  * Copyright 2012 Twitter, Inc.
@@ -18,37 +18,42 @@
  * =========================================================== */
 
 
-!function( $ ) {
+!function ($) {
 
-  "use strict"
+  "use strict"; // jshint ;_;
 
-  var Popover = function ( element, options ) {
+
+ /* POPOVER PUBLIC CLASS DEFINITION
+  * =============================== */
+
+  var Popover = function (element, options) {
     this.init('popover', element, options)
   }
 
+
   /* NOTE: POPOVER EXTENDS BOOTSTRAP-TOOLTIP.js
-   ========================================== */
+     ========================================== */
 
   Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype, {
 
     constructor: Popover
 
-    , setContent: function () {
+  , setContent: function () {
       var $tip = this.tip()
         , title = this.getTitle()
         , content = this.getContent()
 
-      $tip.find('.popover-title')[ $.type(title) == 'object' ? 'append' : 'html' ](title)
-      $tip.find('.popover-content > *')[ $.type(content) == 'object' ? 'append' : 'html' ](content)
+      $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
+      $tip.find('.popover-content > *')[this.options.html ? 'html' : 'text'](content)
 
       $tip.removeClass('fade top bottom left right in')
     }
 
-    , hasContent: function () {
+  , hasContent: function () {
       return this.getTitle() || this.getContent()
     }
 
-    , getContent: function () {
+  , getContent: function () {
       var content
         , $e = this.$element
         , o = this.options
@@ -56,25 +61,27 @@
       content = $e.attr('data-content')
         || (typeof o.content == 'function' ? o.content.call($e[0]) :  o.content)
 
-      content = content.toString().replace(/(^\s*|\s*$)/, "")
-
       return content
     }
 
-    , tip: function() {
+  , tip: function () {
       if (!this.$tip) {
         this.$tip = $(this.options.template)
       }
       return this.$tip
     }
 
+  , destroy: function () {
+      this.hide().$element.off('.' + this.type).removeData(this.type)
+    }
+
   })
 
 
-  /* POPOVER PLUGIN DEFINITION
-   * ======================= */
+ /* POPOVER PLUGIN DEFINITION
+  * ======================= */
 
-  $.fn.popover = function ( option ) {
+  $.fn.popover = function (option) {
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('popover')
@@ -88,8 +95,9 @@
 
   $.fn.popover.defaults = $.extend({} , $.fn.tooltip.defaults, {
     placement: 'right'
-    , content: ''
-    , template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
+  , trigger: 'click'
+  , content: ''
+  , template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
   })
 
-}( window.jQuery );
+}(window.jQuery);

@@ -169,8 +169,10 @@
     },
 
     __addFocusCatchers: function(parentHandle) {
-      parentHandle.prepend(new FocusCatcher(this.__handle, true));
-      parentHandle.append(new FocusCatcher(this.__handle, false));
+      if (parentHandle) {
+        parentHandle.prepend(new FocusCatcher(this.__handle, true));
+        parentHandle.append(new FocusCatcher(this.__handle, false));
+      }
     },
 
     /**

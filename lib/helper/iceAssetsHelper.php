@@ -264,10 +264,10 @@ function ice_image_tag_flickholdr($size, $options = array())
   }
 
   $i = isset($options['i']) ? (int) $options['i'] : 1;
-  $tags = isset($options['tags']) ? (array) $options['tags'] : array();
+  $tags = isset($options['tags']) ? (array) $options['tags'] : array('abstract');
 
   // Unset the custom options
   unset($options['i'], $options['tags']);
 
-  return image_tag('http://flickholdr.com/'. $size .'/'. implode(',', (array) $tags) .'/'. $i, $options);
+  return image_tag('http://lorempixel.com/'. $size .'/'. implode(',', (array) $tags) .'/'. $i, $options);
 }

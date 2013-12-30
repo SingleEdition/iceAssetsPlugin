@@ -2,9 +2,10 @@
 
 function ice_cdn_domain($subdomain = null)
 {
-  return sprintf(
-    '//%s%s', $subdomain ? $subdomain .'.' : null, sfConfig::get('app_ice_assets_domain')
-  );
+  return '';
+//  return sprintf(
+//    '//%s%s', $subdomain ? $subdomain .'.' : null, sfConfig::get('app_ice_assets_domain')
+//  );
 }
 
 function ice_spacer_image($width = 1, $height = 1, $options = array())
